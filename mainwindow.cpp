@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QHBoxLayout>
 #include <QScreen>
 #include <QPainter>
 
@@ -9,9 +10,18 @@
 #define TOPBAR_HEIGHT 35
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      m_fakeWidget(new QWidget(nullptr))
+    : QWidget(parent),
+      m_fakeWidget(new QWidget(nullptr)),
+      m_mainPanel(new MainPanel)
 {
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addSpacing(10);
+    layout->addWidget(m_mainPanel);
+    layout->addSpacing(10);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    setLayout(layout);
+
     m_fakeWidget->setFocusPolicy(Qt::NoFocus);
     m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint);
     m_fakeWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -40,7 +50,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     QColor color("#FFFFFF");
-    color.setAlpha(100);
+    color.setAlpha(140);
     painter.fillRect(rect(), color);
 }
 
@@ -53,6 +63,8 @@ void MainWindow::initSize()
     move(0, 0);
 
     setStrutPartial();
+
+    KWindowSystem::setState(winId(), NET::SkipTaskbar);
 }
 
 void MainWindow::setStrutPartial()

@@ -26,10 +26,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    mainpanel.cpp \
+    datetimewidget.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    mainpanel.h \
+    datetimewidget.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
