@@ -10,6 +10,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = flyma-topbar
 TEMPLATE = app
+CONFIG += c++11 link_pkgconfig
+PKGCONFIG += x11 xcb-util xcb-damage
+
+LIBS += -lX11 -lXdamage -lXcomposite -lXrender
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -28,12 +32,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     mainpanel.cpp \
-    datetimewidget.cpp
+    datetimewidget.cpp \
+    tray/traywidget.cpp \
+    tray/xfitman.cpp \
+    tray/trayicon.cpp
 
 HEADERS += \
         mainwindow.h \
     mainpanel.h \
-    datetimewidget.h
+    datetimewidget.h \
+    tray/traywidget.h \
+    tray/xfitman.h \
+    tray/trayicon.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

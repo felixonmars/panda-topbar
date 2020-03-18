@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setAttribute(Qt::WA_NoSystemBackground, false);
     setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlags(Qt::X11BypassWindowManagerHint);
 
     KWindowSystem::setOnDesktop(effectiveWinId(), NET::OnAllDesktops);
     KWindowSystem::setType(winId(), NET::Dock);
@@ -50,7 +51,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     QColor color("#FFFFFF");
-    color.setAlpha(140);
+    color.setAlpha(50);
     painter.fillRect(rect(), color);
 }
 
