@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = flyma-topbar
 TEMPLATE = app
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xcb-util xcb-damage
+PKGCONFIG += x11 xcb-util xcb-damage libpulse
 
 LIBS += -lX11 -lXdamage -lXcomposite -lXrender
 
@@ -35,7 +35,11 @@ SOURCES += \
     datetimewidget.cpp \
     tray/traywidget.cpp \
     tray/xfitman.cpp \
-    tray/trayicon.cpp
+    tray/trayicon.cpp \
+    volumewidget.cpp \
+    volume/pulseaudioengine.cpp \
+    volume/audioengine.cpp \
+    volume/audiodevice.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +47,11 @@ HEADERS += \
     datetimewidget.h \
     tray/traywidget.h \
     tray/xfitman.h \
-    tray/trayicon.h
+    tray/trayicon.h \
+    volumewidget.h \
+    volume/pulseaudioengine.h \
+    volume/audioengine.h \
+    volume/audiodevice.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

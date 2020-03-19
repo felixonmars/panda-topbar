@@ -282,7 +282,7 @@ void TrayWidget::addIcon(Window id)
     m_icons.append(icon);
     m_layout->addWidget(icon, 0, Qt::AlignRight);
     connect(icon, &QObject::destroyed, this, &TrayWidget::onIconDestroyed);
-    sortIcons();
+    // sortIcons();
 
     qDebug() << "add Icon: " << id << icon->appName();
 }
@@ -302,7 +302,7 @@ void TrayWidget::sortIcons()
     });
 
     // add them back in sorted order
-    for(QLayoutItem *item : items)
+    for (QLayoutItem *item : items)
         m_layout->addItem(item);
 }
 

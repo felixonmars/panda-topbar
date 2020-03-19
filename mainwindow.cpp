@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setAttribute(Qt::WA_NoSystemBackground, false);
     setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::X11BypassWindowManagerHint);
+    // setWindowFlags(Qt::X11BypassWindowManagerHint);
 
     KWindowSystem::setOnDesktop(effectiveWinId(), NET::OnAllDesktops);
     KWindowSystem::setType(winId(), NET::Dock);
@@ -51,7 +51,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     QColor color("#FFFFFF");
-    color.setAlpha(50);
+    color.setAlpha(20);
     painter.fillRect(rect(), color);
 }
 
@@ -66,6 +66,7 @@ void MainWindow::initSize()
     setStrutPartial();
 
     KWindowSystem::setState(winId(), NET::SkipTaskbar);
+    KWindowSystem::setState(winId(), NET::SkipSwitcher);
 }
 
 void MainWindow::setStrutPartial()
@@ -77,6 +78,7 @@ void MainWindow::setStrutPartial()
     m_fakeWidget->setGeometry(r);
     m_fakeWidget->setVisible(true);
     KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipTaskbar);
+    KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipSwitcher);
 
     const QRect windowRect = this->rect();
     NETExtendedStrut strut;
