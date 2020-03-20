@@ -8,7 +8,7 @@ QT       += core gui x11extras KWindowSystem
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = flyma-topbar
+TARGET = panda-topbar
 TEMPLATE = app
 CONFIG += c++11 link_pkgconfig
 PKGCONFIG += x11 xcb-util xcb-damage libpulse

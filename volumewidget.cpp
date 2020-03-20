@@ -12,7 +12,7 @@ VolumeWidget::VolumeWidget(QWidget *parent)
     mainloop = pa_threaded_mainloop_new();
     pa_threaded_mainloop_lock(mainloop);
     pa_mainloop_api *api = pa_threaded_mainloop_get_api(mainloop);
-    context = pa_context_new(api, "flyma");
+    context = pa_context_new(api, "panda");
 
     if (pa_threaded_mainloop_start(mainloop)) {
         qDebug() << "Unable to start pulseaudio mainloop";
