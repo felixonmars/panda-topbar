@@ -22,13 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
     layout->setSpacing(0);
     setLayout(layout);
 
-    m_fakeWidget->setFocusPolicy(Qt::NoFocus);
-    m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint);
+    m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus);
     m_fakeWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     setAttribute(Qt::WA_NoSystemBackground, false);
     setAttribute(Qt::WA_TranslucentBackground);
-    // setWindowFlags(Qt::X11BypassWindowManagerHint);
+    setWindowFlags(Qt::X11BypassWindowManagerHint);
 
     KWindowSystem::setOnDesktop(effectiveWinId(), NET::OnAllDesktops);
     KWindowSystem::setType(winId(), NET::Dock);
@@ -77,8 +76,8 @@ void MainWindow::setStrutPartial()
     r.setWidth(1);
     m_fakeWidget->setGeometry(r);
     m_fakeWidget->setVisible(true);
-    KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipTaskbar);
-    KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipSwitcher);
+    KWindowSystem::setState(m_fakeWidget->effectiveWinId(), NET::SkipTaskbar);
+    KWindowSystem::setState(m_fakeWidget->effectiveWinId(), NET::SkipSwitcher);
 
     const QRect windowRect = this->rect();
     NETExtendedStrut strut;

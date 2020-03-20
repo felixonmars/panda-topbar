@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "tray/traywidget.h"
-#include "volumewidget.h"
+// #include "volumewidget.h"
 
 class MainPanel : public QWidget
 {
@@ -14,7 +14,7 @@ public:
 
 private:
     TrayWidget *m_trayWidget;
-    VolumeWidget *m_volumeWidget;
+    //VolumeWidget *m_volumeWidget;
 };
 
 #endif // MAINPANEL_H
