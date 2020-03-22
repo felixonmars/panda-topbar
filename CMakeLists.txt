@@ -30,6 +30,17 @@ set(SRCS
     volume/volumewidget.h
 )
 
+set(APPMENU_SRC
+    appmenu/appmenuwidget.h
+    appmenu/appmenuwidget.cpp
+    appmenu/appmenudbus.h
+    appmenu/appmenudbus.cpp
+    appmenu/kdbusimporter.h
+    appmenu/menuimporter.h
+    appmenu/menuimporter.cpp
+    appmenu/dbusmenutypes_p.h
+)
+
 find_package(PkgConfig REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Concurrent REQUIRED)
@@ -37,6 +48,7 @@ find_package(Qt5X11Extras REQUIRED)
 find_package(Qt5DBus REQUIRED)
 find_package(KF5DBusAddons REQUIRED)
 find_package(KF5WindowSystem REQUIRED)
+find_package(dbusmenu-qt5 REQUIRED)
 
 # find_package(XCB REQUIRED COMPONENTS xcb xcb-util xcb-damage)
 find_package(X11 REQUIRED)
@@ -52,7 +64,13 @@ pkg_check_modules(XCB_EWMH REQUIRED xcb-ewmh x11)
 #                                               ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 #                                               ${PROJECT_BINARY_DIR})
 
-add_executable(${EXEC_NAME} ${SRCS})
+qt5_add_dbus_adaptor(APPMENU_SRC appmenu/org.kde.kappmenu.xml
+    appmenu/appmenudbus.h AppmenuDBus appmenuadaptor AppmenuAdaptor)
+
+qt5_add_dbus_adaptor(APPMENU_SRC appmenu/com.canonical.AppMenu.Registrar.xml
+    appmenu/menuimporter.h MenuImporter menuimporteradaptor MenuImporterAdaptor)
+
+add_executable(${EXEC_NAME} ${SRCS} ${APPMENU_SRC})
 target_link_libraries(${EXEC_NAME}
     Qt5::DBus
     Qt5::Widgets
@@ -66,6 +84,8 @@ target_link_libraries(${EXEC_NAME}
     ${XDAMAGE_LIBRARIES}
     ${XRENDER_LIBRARIES}
     ${XCB_LIBRARIES}
+    ${XCB_EWMH_LIBRARIES}
 
     ${PULSEAUDIO_LIBRARY}
+    dbusmenu-qt5
 )

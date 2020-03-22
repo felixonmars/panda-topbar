@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QWidget>
+#include <QFrame>
 #include "mainpanel.h"
 
-class MainWindow : public QWidget
+class MainWindow : public QFrame
 {
     Q_OBJECT
 

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "tray/traywidget.h"
+#include "appmenu/appmenuwidget.h"
 // #include "volumewidget.h"
 
 class MainPanel : public QWidget
@@ -13,6 +14,7 @@ public:
     explicit MainPanel(QWidget *parent = nullptr);
 
 private:
+    AppMenuWidget *m_appMenuWidget;
     TrayWidget *m_trayWidget;
     //VolumeWidget *m_volumeWidget;
 };

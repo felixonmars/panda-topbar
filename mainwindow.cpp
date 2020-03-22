@@ -10,7 +10,7 @@
 #define TOPBAR_HEIGHT 35
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent),
+    : QFrame(parent),
       m_fakeWidget(new QWidget(nullptr)),
       m_mainPanel(new MainPanel)
 {
@@ -22,12 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
     layout->setSpacing(0);
     setLayout(layout);
 
-    m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus);
+    m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus | Qt::SplashScreen);
     m_fakeWidget->setAttribute(Qt::WA_TranslucentBackground);
 
     setAttribute(Qt::WA_NoSystemBackground, false);
     setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::X11BypassWindowManagerHint);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 
     KWindowSystem::setOnDesktop(effectiveWinId(), NET::OnAllDesktops);
     KWindowSystem::setType(winId(), NET::Dock);
@@ -64,8 +64,8 @@ void MainWindow::initSize()
 
     setStrutPartial();
 
-    KWindowSystem::setState(winId(), NET::SkipTaskbar);
-    KWindowSystem::setState(winId(), NET::SkipSwitcher);
+//    KWindowSystem::setState(winId(), NET::SkipTaskbar);
+//    KWindowSystem::setState(winId(), NET::SkipSwitcher);
 }
 
 void MainWindow::setStrutPartial()
@@ -76,8 +76,6 @@ void MainWindow::setStrutPartial()
     r.setWidth(1);
     m_fakeWidget->setGeometry(r);
     m_fakeWidget->setVisible(true);
-    KWindowSystem::setState(m_fakeWidget->effectiveWinId(), NET::SkipTaskbar);
-    KWindowSystem::setState(m_fakeWidget->effectiveWinId(), NET::SkipSwitcher);
 
     const QRect windowRect = this->rect();
     NETExtendedStrut strut;
@@ -99,4 +97,9 @@ void MainWindow::setStrutPartial()
                                      strut.bottom_width,
                                      strut.bottom_start,
                                      strut.bottom_end);
+
+//    KWindowSystem::setState(winId(), NET::SkipTaskbar);
+//    KWindowSystem::setState(winId(), NET::SkipSwitcher);
+//    KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipTaskbar);
+//    KWindowSystem::setState(m_fakeWidget->winId(), NET::SkipSwitcher);
 }
