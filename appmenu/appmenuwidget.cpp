@@ -12,7 +12,9 @@
 #include <QDBusConnectionInterface>
 #include <QDBusServiceWatcher>
 
+#include <QStandardPaths>
 #include <QHBoxLayout>
+#include <QSettings>
 #include <QToolBar>
 
 static const QByteArray s_x11AppMenuServiceNamePropertyName = QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME");
@@ -29,6 +31,7 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
 
     m_titleLabel = new QLabel;
     m_bar = new QToolBar(this);
+    m_bar->setToolButtonStyle(Qt::ToolButtonTextOnly);
     layout->addWidget(m_titleLabel);
     layout->addWidget(m_bar);
 
@@ -114,7 +117,23 @@ void AppMenuWidget::onActiveWindowChanged(WId id)
         return;
     }
 
-    m_titleLabel->setText(info.windowClassClass());
+    QSettings set(QString("%1/%2/appinfo.conf")
+                         .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
+                         .arg("panda-dock"), QSettings::IniFormat);
+    set.setIniCodec("UTF8");
+    const QString key = info.windowClassClass().toLower();
+    set.beginGroup(key);
+
+    if (set.contains("Desktop")) {
+        if (set.contains(QString("Name[%1]").arg(QLocale::system().name()))) {
+            m_titleLabel->setText(set.value(QString("Name[%1]").arg(QLocale::system().name())).toString());
+        } else {
+            m_titleLabel->setText(set.value("Name").toString());
+        }
+    } else {
+        m_titleLabel->setText(info.windowClassClass().toLower());
+    }
+    set.endGroup();
 
     WId transientId = info.transientFor();
     // lok at transient windows first
@@ -171,8 +190,6 @@ void AppMenuWidget::updateApplicationMenu(const QString &serviceName, const QStr
             menu->setParent(this);
 
             for (QAction *a : menu->actions()) {
-                qDebug() << a->text();
-
                 m_bar->addAction(a);
             }
         }

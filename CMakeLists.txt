@@ -41,6 +41,7 @@ set(APPMENU_SRC
     appmenu/dbusmenutypes_p.h
 )
 
+
 find_package(PkgConfig REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Concurrent REQUIRED)
@@ -70,7 +71,7 @@ qt5_add_dbus_adaptor(APPMENU_SRC appmenu/org.kde.kappmenu.xml
 qt5_add_dbus_adaptor(APPMENU_SRC appmenu/com.canonical.AppMenu.Registrar.xml
     appmenu/menuimporter.h MenuImporter menuimporteradaptor MenuImporterAdaptor)
 
-add_executable(${EXEC_NAME} ${SRCS} ${APPMENU_SRC})
+add_executable(${EXEC_NAME} ${SRCS} resources.qrc ${APPMENU_SRC})
 target_link_libraries(${EXEC_NAME}
     Qt5::DBus
     Qt5::Widgets

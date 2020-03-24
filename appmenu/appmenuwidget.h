@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QIcon>
+#include <QSettings>
 #include <dbusmenuimporter.h>
 
 #include "appmenudbus.h"
