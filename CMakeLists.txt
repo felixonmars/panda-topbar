@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(panda-topbar)
 set(PROJECT_VERSION "1.0")
-set(EXEC_NAME panda-topbar)
+set(TARGET panda-topbar)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -71,8 +71,8 @@ qt5_add_dbus_adaptor(APPMENU_SRC appmenu/org.kde.kappmenu.xml
 qt5_add_dbus_adaptor(APPMENU_SRC appmenu/com.canonical.AppMenu.Registrar.xml
     appmenu/menuimporter.h MenuImporter menuimporteradaptor MenuImporterAdaptor)
 
-add_executable(${EXEC_NAME} ${SRCS} resources.qrc ${APPMENU_SRC})
-target_link_libraries(${EXEC_NAME}
+add_executable(${TARGET} ${SRCS} resources.qrc ${APPMENU_SRC})
+target_link_libraries(${TARGET}
     Qt5::DBus
     Qt5::Widgets
     Qt5::Concurrent
@@ -90,3 +90,5 @@ target_link_libraries(${EXEC_NAME}
     ${PULSEAUDIO_LIBRARY}
     dbusmenu-qt5
 )
+
+install(TARGETS ${TARGET} DESTINATION /usr/bin)
