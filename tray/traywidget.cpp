@@ -38,6 +38,7 @@ TrayWidget::TrayWidget(QWidget *parent)
       m_display(QX11Info::display())
 {
     m_layout = new QHBoxLayout;
+    m_layout->setContentsMargins(0, 0, 0, 0);
     _NET_SYSTEM_TRAY_OPCODE = XfitMan::atom("_NET_SYSTEM_TRAY_OPCODE");
     setLayout(m_layout);
 
@@ -280,7 +281,7 @@ void TrayWidget::addIcon(Window id)
 
     icon = new TrayIcon(id, this);
     m_icons.append(icon);
-    m_layout->addWidget(icon, 0, Qt::AlignRight);
+    m_layout->addWidget(icon, 0, Qt::AlignRight | Qt::AlignVCenter);
     connect(icon, &QObject::destroyed, this, &TrayWidget::onIconDestroyed);
     // sortIcons();
 
