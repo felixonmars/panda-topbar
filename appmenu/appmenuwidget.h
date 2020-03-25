@@ -28,7 +28,7 @@ protected:
     }
 };
 
-class QToolBar;
+class QMenuBar;
 class AppMenuWidget : public QWidget, public QAbstractNativeEventFilter, protected QDBusContext
 {
     Q_OBJECT
@@ -58,7 +58,7 @@ private:
 
     QPointer<QDBusMenuImporter> m_importer;
     QLabel *m_titleLabel;
-    QToolBar *m_bar;
+    QMenuBar *m_bar;
 };
 
 #endif // DATETIMEWIDGET_H

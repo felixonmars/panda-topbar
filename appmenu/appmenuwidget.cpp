@@ -15,7 +15,7 @@
 #include <QStandardPaths>
 #include <QHBoxLayout>
 #include <QSettings>
-#include <QToolBar>
+#include <QMenuBar>
 
 static const QByteArray s_x11AppMenuServiceNamePropertyName = QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME");
 static const QByteArray s_x11AppMenuObjectPathPropertyName = QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH");
@@ -30,10 +30,12 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     setLayout(layout);
 
     m_titleLabel = new QLabel;
-    m_bar = new QToolBar(this);
-    m_bar->setToolButtonStyle(Qt::ToolButtonTextOnly);
-    layout->addWidget(m_titleLabel);
-    layout->addWidget(m_bar);
+    m_bar = new QMenuBar(this);
+    m_bar->setAttribute(Qt::WA_TranslucentBackground);
+    m_bar->setStyleSheet("background: transparent");
+    layout->addWidget(m_titleLabel, 0, Qt::AlignVCenter);
+    layout->addWidget(m_bar, 0, Qt::AlignVCenter);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     reconfigure();
 
