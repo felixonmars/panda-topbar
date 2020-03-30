@@ -50,7 +50,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     QColor color("#FFFFFF");
-    color.setAlpha(120);
+    color.setAlpha(160);
     painter.fillRect(rect(), color);
     painter.fillRect(QRect(0, rect().height() - 1, rect().width(), 1), QColor(0, 0, 0, 50));
 }

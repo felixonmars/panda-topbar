@@ -26,7 +26,7 @@ MainPanel::MainPanel(QWidget *parent)
     layout->addWidget(m_appMenuWidget);
     layout->addStretch();
     layout->addWidget(m_trayWidget, 0, Qt::AlignVCenter);
-    layout->addSpacing(5);
+    layout->addSpacing(10);
     // layout->addWidget(m_volumeWidget);
     layout->addWidget(new DateTimeWidget, 0, Qt::AlignVCenter);
     layout->addSpacing(10);
