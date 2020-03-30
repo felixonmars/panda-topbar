@@ -9,22 +9,27 @@ MainPanel::MainPanel(QWidget *parent)
       m_trayWidget(new TrayWidget)
       //m_volumeWidget(new VolumeWidget)
 {
-    QLabel *logoLabel = new QLabel;
-    logoLabel->setPixmap(QPixmap(":/resources/logo.svg"));
+    QLabel *userNameLabel = new QLabel;
+    //userNameLabel->setPixmap(QPixmap(":/resources/logo.svg"));
+
+    QString userName = qgetenv("USER");
+    userNameLabel->setText(qgetenv("USER"));
+    if (userNameLabel->text().isEmpty())
+        userNameLabel->setText(qgetenv("USERNAME"));
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setMargin(0);
     layout->setSpacing(0);
-    layout->addSpacing(15);
-    layout->addWidget(logoLabel);
-    layout->addSpacing(15);
+    layout->addSpacing(10);
+    layout->addWidget(userNameLabel);
+    layout->addSpacing(10);
     layout->addWidget(m_appMenuWidget);
     layout->addStretch();
     layout->addWidget(m_trayWidget, 0, Qt::AlignVCenter);
     layout->addSpacing(5);
     // layout->addWidget(m_volumeWidget);
     layout->addWidget(new DateTimeWidget, 0, Qt::AlignVCenter);
-    layout->addSpacing(5);
+    layout->addSpacing(10);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }

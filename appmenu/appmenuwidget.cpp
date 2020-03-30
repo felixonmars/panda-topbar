@@ -29,11 +29,9 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout;
     setLayout(layout);
 
-    m_titleLabel = new QLabel;
     m_bar = new QMenuBar(this);
     m_bar->setAttribute(Qt::WA_TranslucentBackground);
     m_bar->setStyleSheet("background: transparent");
-    layout->addWidget(m_titleLabel, 0, Qt::AlignVCenter);
     layout->addWidget(m_bar, 0, Qt::AlignVCenter);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -64,6 +62,12 @@ void AppMenuWidget::reconfigure()
 
 void AppMenuWidget::onActiveWindowChanged(WId id)
 {
+    qApp->removeNativeEventFilter(this);
+
+    if (!id) {
+        return;
+    }
+
     auto *c = QX11Info::connection();
     auto getWindowPropertyString = [c](WId id, const QByteArray &name) -> QByteArray {
         QByteArray value;
@@ -110,7 +114,6 @@ void AppMenuWidget::onActiveWindowChanged(WId id)
     };
 
     m_bar->clear();
-    m_titleLabel->setText("");
 
     KWindowInfo info(id, NET::WMState | NET::WMWindowType, NET::WM2TransientFor | NET::WM2WindowClass);
     if (info.hasState(NET::SkipTaskbar) ||
@@ -118,24 +121,6 @@ void AppMenuWidget::onActiveWindowChanged(WId id)
             info.windowType(NET::DesktopMask) == NET::Desktop) {
         return;
     }
-
-    QSettings set(QString("%1/%2/appinfo.conf")
-                         .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
-                         .arg("panda-dock"), QSettings::IniFormat);
-    set.setIniCodec("UTF8");
-    const QString key = info.windowClassClass().toLower();
-    set.beginGroup(key);
-
-    if (set.contains("Desktop")) {
-        if (set.contains(QString("Name[%1]").arg(QLocale::system().name()))) {
-            m_titleLabel->setText(set.value(QString("Name[%1]").arg(QLocale::system().name())).toString());
-        } else {
-            m_titleLabel->setText(set.value("Name").toString());
-        }
-    } else {
-        m_titleLabel->setText(info.windowClassClass().toLower());
-    }
-    set.endGroup();
 
     WId transientId = info.transientFor();
     // lok at transient windows first
@@ -151,6 +136,11 @@ void AppMenuWidget::onActiveWindowChanged(WId id)
         // setVisible(true);
         return;
     }
+
+    // monitor whether an app menu becomes available later
+    // this can happen when an app starts, shows its window, and only later announces global menu (e.g. Firefox)
+    qApp->installEventFilter(this);
+    m_delayedMenuWindowId = id;
 }
 
 void AppMenuWidget::itemActivationRequested(int actionId, uint timeStamp)
@@ -211,15 +201,14 @@ bool AppMenuWidget::nativeEventFilter(const QByteArray &eventType, void *message
     if (type == XCB_PROPERTY_NOTIFY) {
         auto *event = reinterpret_cast<xcb_property_notify_event_t *>(e);
         if (event->window == m_delayedMenuWindowId) {
+
             auto serviceNameAtom = s_atoms.value(s_x11AppMenuServiceNamePropertyName);
             auto objectPathAtom = s_atoms.value(s_x11AppMenuObjectPathPropertyName);
 
             if (serviceNameAtom != XCB_ATOM_NONE && objectPathAtom != XCB_ATOM_NONE) { // shouldn't happen
                 if (event->atom == serviceNameAtom || event->atom == objectPathAtom) {
                     // see if we now have a menu
-                    // onActiveWindowChanged(KWindowSystem::activeWindow());
-
-                    qDebug() << "fuck ooff ?? ";
+                    onActiveWindowChanged(KWindowSystem::activeWindow());
                 }
             }
         }

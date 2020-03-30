@@ -60,11 +60,6 @@ pkg_check_modules(XDAMAGE REQUIRED xdamage)
 pkg_check_modules(XRENDER REQUIRED xrender)
 pkg_check_modules(XCB_EWMH REQUIRED xcb-ewmh x11)
 
-#target_include_directories(${PROJECT_NAME} PUBLIC ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-#                                               ${XCB_EWMH_INCLUDE_DIRS}
-#                                               ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-#                                               ${PROJECT_BINARY_DIR})
-
 qt5_add_dbus_adaptor(APPMENU_SRC appmenu/org.kde.kappmenu.xml
     appmenu/appmenudbus.h AppmenuDBus appmenuadaptor AppmenuAdaptor)
 

@@ -57,7 +57,6 @@ private:
     QString m_menuObjectPath;
 
     QPointer<QDBusMenuImporter> m_importer;
-    QLabel *m_titleLabel;
     QMenuBar *m_bar;
 };
 
