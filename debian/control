@@ -1,0 +1,12 @@
+Source: panda-topbar
+Section: x11
+Priority: optional
+Maintainer: Rekols <rekols@foxmail.com>
+Build-Depends: debhelper (>= 9), pkg-config, cmake, extra-cmake-modules, qtbase5-dev, qttools5-dev, g++, qt5-default, qttools5-dev-tools, libqt5x11extras5-dev, libqt5svg5-dev, libxtst-dev, libkf5windowsystem-dev, libxcomposite-dev, libxrender-dev, libxcb-util-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/pandaos
+
+Package: panda-topbar
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Dock for PandaOS.
