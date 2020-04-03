@@ -10,6 +10,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_FLAGS "-g -Wall")
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
 set(SRCS
     main.cpp
     mainwindow.h
@@ -51,7 +53,7 @@ find_package(KF5DBusAddons REQUIRED)
 find_package(KF5WindowSystem REQUIRED)
 find_package(dbusmenu-qt5 REQUIRED)
 
-# find_package(XCB REQUIRED COMPONENTS xcb xcb-util xcb-damage)
+find_package(XCB REQUIRED COMPONENTS xcb xcb-util xcb-damage)
 find_package(X11 REQUIRED)
 find_package(PulseAudio)
 
