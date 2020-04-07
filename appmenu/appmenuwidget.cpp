@@ -29,19 +29,19 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout;
     setLayout(layout);
 
-    m_bar = new QMenuBar(this);
-    m_bar->setAttribute(Qt::WA_TranslucentBackground);
-    m_bar->setStyleSheet("background: transparent");
-    layout->addWidget(m_bar, 0, Qt::AlignVCenter);
+    m_menuBar = new QMenuBar(this);
+    m_menuBar->setAttribute(Qt::WA_TranslucentBackground);
+    m_menuBar->setStyleSheet("background: transparent");
+    layout->addWidget(m_menuBar, 0, Qt::AlignVCenter);
     layout->setContentsMargins(0, 0, 0, 0);
 
     reconfigure();
 
-    m_appMenuDBus->connectToBus();
+    // m_appMenuDBus->connectToBus();
 
-    connect(m_appMenuDBus, &AppmenuDBus::appShowMenu, this, [=]  (int x, int y, const QString &serviceName, const QDBusObjectPath &menuObjectPath, int actionId){
-        qDebug() << x << y << serviceName << "appShowMenu";
-    });
+    // connect(m_appMenuDBus, &AppmenuDBus::appShowMenu, this, [=]  (int x, int y, const QString &serviceName, const QDBusObjectPath &menuObjectPath, int actionId){
+    //     qDebug() << x << y << serviceName << "appShowMenu";
+    // });
 }
 
 void AppMenuWidget::reconfigure()
@@ -49,8 +49,8 @@ void AppMenuWidget::reconfigure()
     // Setup a menu importer if needed
     if (!m_menuImporter) {
         QDBusConnection::sessionBus().connect({}, {}, QStringLiteral("com.canonical.dbusmenu"),
-                                                                QStringLiteral("ItemActivationRequested"),
-                                                        this, SLOT(itemActivationRequested(int,uint)));
+                                                      QStringLiteral("ItemActivationRequested"),
+                                                      this, SLOT(itemActivationRequested(int, uint)));
 
         m_menuImporter = new MenuImporter(this);
         connect(m_menuImporter, &MenuImporter::WindowRegistered, this, &AppMenuWidget::slotWindowRegistered);
@@ -62,11 +62,12 @@ void AppMenuWidget::reconfigure()
 
 void AppMenuWidget::onActiveWindowChanged(WId id)
 {
+    m_menuBar->clear();
+    m_menuBar->setVisible(false);
     qApp->removeNativeEventFilter(this);
 
-    if (!id) {
+    if (!id)
         return;
-    }
 
     auto *c = QX11Info::connection();
     auto getWindowPropertyString = [c](WId id, const QByteArray &name) -> QByteArray {
@@ -112,8 +113,6 @@ void AppMenuWidget::onActiveWindowChanged(WId id)
         }
         return false;
     };
-
-    m_bar->clear();
 
     KWindowInfo info(id, NET::WMState | NET::WMWindowType, NET::WM2TransientFor | NET::WM2WindowClass);
     if (info.hasState(NET::SkipTaskbar) ||
@@ -182,8 +181,10 @@ void AppMenuWidget::updateApplicationMenu(const QString &serviceName, const QStr
             menu->setParent(this);
 
             for (QAction *a : menu->actions()) {
-                m_bar->addAction(a);
+                m_menuBar->addAction(a);
             }
+
+            m_menuBar->setVisible(true);
         }
     });
 }

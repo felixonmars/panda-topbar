@@ -57,7 +57,7 @@ private:
     QString m_menuObjectPath;
 
     QPointer<QDBusMenuImporter> m_importer;
-    QMenuBar *m_bar;
+    QMenuBar *m_menuBar;
 };
 
 #endif // DATETIMEWIDGET_H
