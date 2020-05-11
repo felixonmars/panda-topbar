@@ -3,6 +3,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
+#include <QDir>
+#include <QPluginLoader>
+#include "../interfaces/pluginsiterface.h"
+
 MainPanel::MainPanel(QWidget *parent)
     : QWidget(parent),
       m_appMenuWidget(new AppMenuWidget),
@@ -32,4 +36,24 @@ MainPanel::MainPanel(QWidget *parent)
     layout->addSpacing(10);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
+
+    QDir pluginsDir("/usr/lib/panda-topbar/plugins");
+    const QFileInfoList files = pluginsDir.entryInfoList(QDir::Files);
+    for (const QFileInfo file : files) {
+        const QString filePath = file.filePath();
+        if (!QLibrary::isLibrary(filePath))
+            continue;
+
+        QPluginLoader *loader = new QPluginLoader(filePath);
+        const QJsonObject &meta = loader->metaData().value("MetaData").toObject();
+        const QString &pluginApi = meta.value("api").toString();
+
+        TopbarPlugin *interface = qobject_cast<TopbarPlugin *>(loader->instance());
+
+        if (interface) {
+            qDebug() << "load " << interface->pluginName() << " !!!";
+        } else {
+            qDebug() << filePath << loader->errorString();
+        }
+    }
 }
