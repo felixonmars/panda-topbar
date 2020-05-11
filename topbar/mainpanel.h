@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include "../interfaces/pluginsiterface.h"
 #include "pluginmanager.h"
 
 class MainPanel : public QWidget
@@ -17,6 +18,7 @@ public:
 
 private:
     QHBoxLayout *m_globalMenuLayout;
+    QHBoxLayout *m_statusnotifierLayout;
     QHBoxLayout *m_dateTimeLayout;
 
     PluginManager *m_pluginManager;

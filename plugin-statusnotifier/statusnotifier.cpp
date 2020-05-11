@@ -4,5 +4,4 @@
 Statusnotifier::Statusnotifier(QObject *parent)
   : QObject(parent)
 {
-    qDebug() << " hello world!";
 }

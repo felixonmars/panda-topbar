@@ -2,6 +2,7 @@
 #define STATUSNOTIFIER_H
 
 #include "pluginsiterface.h"
+#include "statusnotifierwidget.h"
 #include <QObject>
 
 class Statusnotifier : public QObject, TopbarPlugin
@@ -15,7 +16,7 @@ public:
 
     QString pluginName() override { return "statusnotifier"; }
     QString displayName() override { return QString(); }
-    QWidget *itemWidget() override { return nullptr; }
+    QWidget *itemWidget() override { return new StatusNotifierWidget; }
 };
 
 #endif

@@ -6,6 +6,18 @@ find_package(dbusmenu-qt5 REQUIRED)
 set(SRCS
     statusnotifier.h
     statusnotifier.cpp
+    dbustypes.h
+    dbustypes.cpp
+    statusnotifierbutton.h
+    statusnotifierbutton.cpp
+    statusnotifieriteminterface.h
+    statusnotifieriteminterface.cpp
+    statusnotifierwatcher.h
+    statusnotifierwatcher.cpp
+    statusnotifierwidget.h
+    statusnotifierwidget.cpp
+    sniasync.h
+    sniasync.cpp
 )
 
 #qt5_add_dbus_adaptor(DBUS_SOURCES
@@ -20,7 +32,11 @@ add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 add_library(${PLUGIN} SHARED ${SRCS})
 
 target_link_libraries(${PLUGIN} PRIVATE
-    ${Qt5Widgets_LIBRARIES}
+    Qt5::DBus
+    Qt5::Widgets
+    Qt5::Concurrent
+    Qt5::X11Extras
+
     dbusmenu-qt5
 )
 target_include_directories(${PLUGIN} PUBLIC ../interfaces)

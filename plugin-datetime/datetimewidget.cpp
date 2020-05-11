@@ -10,7 +10,7 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setMargin(0);
     layout->setSpacing(0);
-    layout->addWidget(m_label);
+    layout->addWidget(m_label, 0, Qt::AlignVCenter);
     setLayout(layout);
 
     updateCurrentTimeString();
