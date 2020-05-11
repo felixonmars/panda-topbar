@@ -2,6 +2,8 @@
 #define PLUGINMANAGER_H
 
 #include <QObject>
+#include <QMap>
+#include "../interfaces/pluginsiterface.h"
 
 class PluginManager : public QObject
 {
@@ -9,6 +11,12 @@ class PluginManager : public QObject
 
 public:
     explicit PluginManager(QObject *parent = 0);
+
+    void start();
+    TopbarPlugin *plugin(const QString &pluginName);
+
+private:
+    QMap<QString, TopbarPlugin *> m_map;
 };
 
 #endif

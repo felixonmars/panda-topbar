@@ -24,3 +24,5 @@ target_link_libraries(${PLUGIN} PRIVATE
     dbusmenu-qt5
 )
 target_include_directories(${PLUGIN} PUBLIC ../interfaces)
+
+install(TARGETS ${PLUGIN} LIBRARY DESTINATION /usr/lib/panda-topbar/plugins)

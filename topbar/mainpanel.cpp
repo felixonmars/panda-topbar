@@ -1,59 +1,46 @@
 #include "mainpanel.h"
-#include "datetimewidget.h"
+#include "../interfaces/pluginsiterface.h"
 #include <QHBoxLayout>
 #include <QLabel>
 
-#include <QDir>
-#include <QPluginLoader>
-#include "../interfaces/pluginsiterface.h"
-
 MainPanel::MainPanel(QWidget *parent)
     : QWidget(parent),
-      m_appMenuWidget(new AppMenuWidget),
-      m_trayWidget(new TrayWidget)
-      //m_volumeWidget(new VolumeWidget)
+      m_globalMenuLayout(new QHBoxLayout),
+      m_dateTimeLayout(new QHBoxLayout),
+      m_pluginManager(new PluginManager)
 {
-    QLabel *userNameLabel = new QLabel;
-    //userNameLabel->setPixmap(QPixmap(":/resources/logo.svg"));
+    m_pluginManager->start();
 
-    QString userName = qgetenv("USER");
-    userNameLabel->setText(qgetenv("USER"));
-    if (userNameLabel->text().isEmpty())
-        userNameLabel->setText(qgetenv("USERNAME"));
+    // QLabel *userNameLabel = new QLabel;
+    // QString userName = qgetenv("USER");
+    // userNameLabel->setText(qgetenv("USER"));
+    // if (userNameLabel->text().isEmpty())
+    //     userNameLabel->setText(qgetenv("USERNAME"));
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setMargin(0);
     layout->setSpacing(0);
     layout->addSpacing(10);
-    layout->addWidget(userNameLabel);
-    layout->addSpacing(10);
-    layout->addWidget(m_appMenuWidget);
+    layout->addLayout(m_globalMenuLayout);
     layout->addStretch();
-    layout->addWidget(m_trayWidget, 0, Qt::AlignVCenter);
     layout->addSpacing(10);
-    // layout->addWidget(m_volumeWidget);
-    layout->addWidget(new DateTimeWidget, 0, Qt::AlignVCenter);
+    layout->addLayout(m_dateTimeLayout);
     layout->addSpacing(10);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 
-    QDir pluginsDir("/usr/lib/panda-topbar/plugins");
-    const QFileInfoList files = pluginsDir.entryInfoList(QDir::Files);
-    for (const QFileInfo file : files) {
-        const QString filePath = file.filePath();
-        if (!QLibrary::isLibrary(filePath))
-            continue;
+    loadModules();
+}
 
-        QPluginLoader *loader = new QPluginLoader(filePath);
-        const QJsonObject &meta = loader->metaData().value("MetaData").toObject();
-        const QString &pluginApi = meta.value("api").toString();
+void MainPanel::loadModules()
+{
+    loadModule("datetime", m_dateTimeLayout);
+}
 
-        TopbarPlugin *interface = qobject_cast<TopbarPlugin *>(loader->instance());
+void MainPanel::loadModule(const QString &pluginName, QHBoxLayout *layout)
+{
+    QWidget *widget = m_pluginManager->plugin(pluginName)->itemWidget();
 
-        if (interface) {
-            qDebug() << "load " << interface->pluginName() << " !!!";
-        } else {
-            qDebug() << filePath << loader->errorString();
-        }
-    }
+    if (widget)
+        layout->addWidget(widget);
 }

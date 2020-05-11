@@ -6,8 +6,8 @@ set(SRCS
     mainwindow.cpp
     mainpanel.h
     mainpanel.cpp
-    datetimewidget.h
-    datetimewidget.cpp
+    pluginmanager.h
+    pluginmanager.cpp
 
     tray/trayicon.cpp
     tray/trayicon.h

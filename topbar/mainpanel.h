@@ -2,9 +2,8 @@
 #define MAINPANEL_H
 
 #include <QWidget>
-#include "tray/traywidget.h"
-#include "appmenu/appmenuwidget.h"
-// #include "volumewidget.h"
+#include <QHBoxLayout>
+#include "pluginmanager.h"
 
 class MainPanel : public QWidget
 {
@@ -13,10 +12,14 @@ class MainPanel : public QWidget
 public:
     explicit MainPanel(QWidget *parent = nullptr);
 
+    void loadModules();
+    void loadModule(const QString &pluginName, QHBoxLayout *layout);
+
 private:
-    AppMenuWidget *m_appMenuWidget;
-    TrayWidget *m_trayWidget;
-    //VolumeWidget *m_volumeWidget;
+    QHBoxLayout *m_globalMenuLayout;
+    QHBoxLayout *m_dateTimeLayout;
+
+    PluginManager *m_pluginManager;
 };
 
 #endif // MAINPANEL_H
