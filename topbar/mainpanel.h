@@ -19,6 +19,7 @@ public:
 private:
     QHBoxLayout *m_globalMenuLayout;
     QHBoxLayout *m_statusnotifierLayout;
+    QHBoxLayout *m_systemTrayLayout;
     QHBoxLayout *m_dateTimeLayout;
 
     PluginManager *m_pluginManager;

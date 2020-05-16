@@ -7,6 +7,7 @@ MainPanel::MainPanel(QWidget *parent)
     : QWidget(parent),
       m_globalMenuLayout(new QHBoxLayout),
       m_statusnotifierLayout(new QHBoxLayout),
+      m_systemTrayLayout(new QHBoxLayout),
       m_dateTimeLayout(new QHBoxLayout),
       m_pluginManager(new PluginManager)
 {
@@ -36,6 +37,8 @@ MainPanel::MainPanel(QWidget *parent)
     layout->addLayout(m_globalMenuLayout);
     layout->addStretch();
     layout->addWidget(statusnotifierWidget, 0, Qt::AlignVCenter);
+    layout->addSpacing(3);
+    layout->addLayout(m_systemTrayLayout);
     layout->addSpacing(10);
     layout->addWidget(dateTimeWidget, 0, Qt::AlignVCenter);
     layout->addSpacing(10);
@@ -49,6 +52,7 @@ void MainPanel::loadModules()
 {
     loadModule("datetime", m_dateTimeLayout);
     loadModule("statusnotifier", m_statusnotifierLayout);
+    loadModule("systemtray", m_systemTrayLayout);
 }
 
 void MainPanel::loadModule(const QString &pluginName, QHBoxLayout *layout)

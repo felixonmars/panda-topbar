@@ -30,8 +30,9 @@ pkg_check_modules(XCB_EWMH REQUIRED xcb-ewmh x11)
 
 file(GLOB INTERFACES "interfaces/*.h")
 
-add_subdirectory("topbar")
-add_subdirectory("plugin-datetime")
-add_subdirectory("plugin-statusnotifier")
+add_subdirectory(topbar)
+add_subdirectory(plugin-datetime)
+add_subdirectory(plugin-statusnotifier)
+add_subdirectory(plugin-tray)
 
 install(FILES ${INTERFACES} DESTINATION /usr/include/panda-topbar)

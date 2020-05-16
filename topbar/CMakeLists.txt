@@ -9,13 +9,6 @@ set(SRCS
     pluginmanager.h
     pluginmanager.cpp
 
-    tray/trayicon.cpp
-    tray/trayicon.h
-    tray/traywidget.h
-    tray/traywidget.cpp
-    tray/xfitman.h
-    tray/xfitman.cpp
-
     volume/volumewidget.cpp
     volume/volumewidget.h
 )

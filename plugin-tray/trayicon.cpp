@@ -40,7 +40,7 @@ TrayIcon::TrayIcon(Window id, QWidget *parent)
       m_iconId(id),
       m_windowId(0),
       m_appName(xfitMan().getApplicationName(m_iconId)),
-      m_iconSize(QSize(24, 24)),
+      m_iconSize(QSize(16, 16)),
       m_display(QX11Info::display())
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
