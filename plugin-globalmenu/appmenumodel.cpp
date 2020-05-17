@@ -14,8 +14,8 @@
 
 #include <dbusmenuimporter.h>
 
-static const QByteArray s_x11AppMenuServiceNamePropertyName = QByteArrayLiteral("_PANDA_NET_WM_APPMENU_SERVICE_NAME");
-static const QByteArray s_x11AppMenuObjectPathPropertyName = QByteArrayLiteral("_PANDA_NET_WM_APPMENU_OBJECT_PATH");
+static const QByteArray s_x11AppMenuServiceNamePropertyName = QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME");
+static const QByteArray s_x11AppMenuObjectPathPropertyName = QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH");
 
 static QHash<QByteArray, xcb_atom_t> s_atoms;
 

@@ -64,6 +64,7 @@ void MainPanel::loadModule(const QString &pluginName, QHBoxLayout *layout)
         QWidget *widget = plugin->itemWidget();
         if (widget) {
             qDebug() << pluginName << " add to panel";
+            widget->setParent(this);
             layout->addWidget(widget);
         }
     }
